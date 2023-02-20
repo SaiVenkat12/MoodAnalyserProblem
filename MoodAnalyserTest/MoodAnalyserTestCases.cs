@@ -13,7 +13,7 @@ namespace MoodAnalyserTest
             //Act
             string expeceted = "Sad";
             MoodAnalyser analyser = new MoodAnalyser(message);
-            string actual = analyser.analysemood();
+            string actual = analyser.Analysemood();
             //Assert
             Assert.AreEqual(expeceted, actual);
         }
@@ -27,7 +27,20 @@ namespace MoodAnalyserTest
             //Act
             string expeceted = "Happy";
             MoodAnalyser analyser = new MoodAnalyser(message);
-            string actual = analyser.analysemood();
+            string actual = analyser.Analysemood();
+            //Assert
+            Assert.AreEqual(expeceted, actual);
+        }
+        [TestMethod]
+        //TC2.1-Given Null Message When AnalyzingMood Should Return Happy
+        public void GivenNullMessage_ShouldReturnHappy()
+        {
+            //Arrange
+            string message = null;
+            //Act
+            string expeceted = "Happy";
+            MoodAnalyser analyser = new MoodAnalyser(message);
+            string actual = analyser.Analysemood();
             //Assert
             Assert.AreEqual(expeceted, actual);
         }

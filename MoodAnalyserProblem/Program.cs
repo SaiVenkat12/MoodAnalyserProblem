@@ -12,7 +12,7 @@ namespace MoodAnalyserProblem
         {
             Console.WriteLine("MoodAnalyser Test Problem");
             MoodAnalyser analyser= new MoodAnalyser("I am in Sad Mood");
-            Console.WriteLine(analyser.analysemood());
+            Console.WriteLine(analyser.Analysemood());
             Console.ReadLine();
         }
     }
