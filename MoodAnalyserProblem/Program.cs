@@ -11,8 +11,8 @@ namespace MoodAnalyserProblem
         static void Main(string[] args)
         {
             Console.WriteLine("MoodAnalyser Test Problem");
-            MoodAnalyser analyser= new MoodAnalyser();
-            Console.WriteLine(analyser.analysemood("I am in Sad Mood"));
+            MoodAnalyser analyser= new MoodAnalyser("I am in Sad Mood");
+            Console.WriteLine(analyser.analysemood());
             Console.ReadLine();
         }
     }
