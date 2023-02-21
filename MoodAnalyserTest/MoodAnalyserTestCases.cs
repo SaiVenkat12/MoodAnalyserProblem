@@ -32,17 +32,42 @@ namespace MoodAnalyserTest
             Assert.AreEqual(expeceted, actual);
         }
         [TestMethod]
-        //TC2.1-Given Null Message When AnalyzingMood Should Return Happy
-        public void GivenNullMessage_ShouldReturnHappy()
+        //TC3.1-Given Null Message When AnalyzingMood Should Return Custom Exception
+        public void GivenNullMessage_ShouldReturnCustomException()
         {
             //Arrange
             string message = null;
+            string expeceted = "Message is Null";
             //Act
-            string expeceted = "Happy";
-            MoodAnalyser analyser = new MoodAnalyser(message);
-            string actual = analyser.Analysemood();
-            //Assert
-            Assert.AreEqual(expeceted, actual);
+            try
+            {
+                MoodAnalyser analyser = new MoodAnalyser(message);
+                string actual = analyser.Analysemood();
+                Assert.AreEqual(expeceted, actual);
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expeceted, ex.Message);
+            }
+        }
+        [TestMethod]
+        //TC3.2-Given Empty Message When AnalyzingMood Should Return Custom Exception
+        public void GivenEmptyMessage_ShouldReturnCustomException()
+        {
+            //Arrange
+            string message = "";
+            string expeceted = "Message is Empty";
+            //Act
+            try
+            {
+                MoodAnalyser analyser = new MoodAnalyser(message);
+                string actual = analyser.Analysemood();
+                Assert.AreEqual(expeceted, actual);
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expeceted, ex.Message);
+            }
         }
     }
 }

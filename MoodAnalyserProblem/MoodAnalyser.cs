@@ -23,12 +23,16 @@ namespace MoodAnalyserProblem
                 {
                     return "Sad";
                 }
+                else if(message.Equals(string.Empty))
+                {
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.EMPTY_MOOD,"Message is Empty");
+                }
                 else
                     return "Happy";
             }
-            catch(NullReferenceException)
+            catch(NullReferenceException ex)
             {
-                return "Happy";
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NULL_MOOD, "Message is Null");
             }
         }
     }
