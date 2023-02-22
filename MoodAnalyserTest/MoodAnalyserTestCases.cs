@@ -69,5 +69,56 @@ namespace MoodAnalyserTest
                 Assert.AreEqual(expeceted, ex.Message);
             }
         }
+        [TestMethod]
+        //TC4.1- Using Reflections Given MoodAnalyser ClassName Should Return MoodAnalyser Object
+        public void GivenMoodAnalyserClassName_ShouldReturnMoodAnalyserObject()
+        {
+            //Arrange
+            string className = "MoodAnalyserProblem.MoodAnalyser";
+            string constructorName = "MoodAnalyser";
+            //Act
+            Object expected = new MoodAnalyser();
+            Object actual = MoodAnalyserFactory.CreateMoodAnalyser(className, constructorName);
+            //Assert
+            actual.Equals(expected);  //determines both objects are equal or not
+        }
+        [TestMethod]
+        //TC4.2-Using Reflections Given Improper ClassName Should Return Custom Exception
+        public void GivenImproperClassName_ShouldReturnException()
+        {
+            //Arrange
+            string expected = "Class not found";
+            try
+            {
+                //Act
+                Object expectedObject = new MoodAnalyser();
+                Object actual = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserProblem.Analyse", "Analyse");
+                //Assert
+                actual.Equals(expectedObject);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
+        [TestMethod]
+        //TC4.3-Using Reflections Given Improper ClassName Should Return Custom Exception
+        public void GivenImproperConstuctorName_ShouldReturnException()
+        {
+            //Arrange
+            string expected = "Method not found";
+            try
+            {
+                //Act
+                Object expectedObject = new MoodAnalyser();
+                Object actual = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "Analyse");
+                //Assert
+                actual.Equals(expectedObject);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
     }
 }
