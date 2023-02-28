@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MoodAnalyserProblem
 {
-    public class MoodAnalyserFactory
+    public class MoodAnalyserReflector
     {
-        public MoodAnalyserFactory() 
+        public MoodAnalyserReflector() 
         {
             
         }
@@ -34,7 +34,7 @@ namespace MoodAnalyserProblem
             else
                 throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "Method not found");
         }
-        public static object CreateParameterizedMoodAnalyser(string className, string constructorName,string message)
+        public static object CreateParameterizedMoodAnalyser(string className, string constructorName, string message)
         {
             Type type = typeof(MoodAnalyser);
             if (type.Name.Equals(className) || type.FullName.Equals(className))
@@ -42,17 +42,32 @@ namespace MoodAnalyserProblem
                 if (type.Name.Equals(constructorName))
                 {
                     ConstructorInfo constructor = type.GetConstructor(new[] { typeof(string) });
-                    object instance = constructor.Invoke(new object[] {message});
+                    object instance = constructor.Invoke(new object[] { message });
                     return instance;
                 }
                 else
-                {                   
+                {
                     throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "Method Not Found");
                 }
             }
             else
             {
                 throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_CLASS, "Class Not Found");
+            }
+        }
+        public static string InvokedAnalyseMood(string message, string methodName)
+        {
+            try
+            {
+                Type type = Type.GetType("MoodAnalyserProblem.MoodAnalyser");
+                object moodAnalyseObject = MoodAnalyserReflector.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser", message);
+                MethodInfo analyseMoodInfo = type.GetMethod(methodName);
+                object mood = analyseMoodInfo.Invoke(moodAnalyseObject, null);
+                return mood.ToString();
+            }
+            catch 
+            {
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "Method Not Found");       
             }
         }
     }

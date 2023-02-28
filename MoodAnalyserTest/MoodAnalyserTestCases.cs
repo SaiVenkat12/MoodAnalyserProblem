@@ -1,4 +1,6 @@
 using MoodAnalyserProblem;
+using System.Reflection;
+
 namespace MoodAnalyserTest
 {
     [TestClass]
@@ -78,7 +80,7 @@ namespace MoodAnalyserTest
             string constructorName = "MoodAnalyser";
             //Act
             Object expected = new MoodAnalyser();
-            Object actual = MoodAnalyserFactory.CreateMoodAnalyser(className, constructorName);
+            Object actual = MoodAnalyserReflector.CreateMoodAnalyser(className, constructorName);
             //Assert
             actual.Equals(expected);  //determines both objects are equal or not
         }
@@ -92,7 +94,7 @@ namespace MoodAnalyserTest
             {
                 //Act
                 Object expectedObject = new MoodAnalyser();
-                Object actual = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserProblem.Analyse", "Analyse");
+                Object actual = MoodAnalyserReflector.CreateMoodAnalyser("MoodAnalyserProblem.Analyse", "Analyse");
                 //Assert
                 actual.Equals(expectedObject);
             }
@@ -111,7 +113,7 @@ namespace MoodAnalyserTest
             {
                 //Act
                 Object expectedObject = new MoodAnalyser();
-                Object actual = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "Analyse");
+                Object actual = MoodAnalyserReflector.CreateMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "Analyse");
                 //Assert
                 actual.Equals(expectedObject);
             }
@@ -125,12 +127,12 @@ namespace MoodAnalyserTest
         public void Given_MoodAnalyser_With_Parameterised_Constructor_ShouldReturnMoodAnalyserObject()
         {
             //Arrange
-            string message = "Happy Mood";           
+            string message = "Happy Mood";
             //Act
-                Object expected=new MoodAnalyser(message);
-                Object actual = MoodAnalyserFactory.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser", message);
-           //Assert
-                actual.Equals(expected);
+            Object expected = new MoodAnalyser(message);
+            Object actual = MoodAnalyserReflector.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser", message);
+            //Assert
+            actual.Equals(expected);
         }
         [TestMethod]
         //TC5.2- Given Improper ClassName Should Return Custom Exception using Parameterised Constructor
@@ -143,7 +145,7 @@ namespace MoodAnalyserTest
             try
             {
                 Object expected = new MoodAnalyser(message);
-                Object actual = MoodAnalyserFactory.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.Customer", "MoodAnalyser", message);
+                Object actual = MoodAnalyserReflector.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.Customer", "MoodAnalyser", message);
                 //Assert
                 actual.Equals(expected);
             }
@@ -154,7 +156,7 @@ namespace MoodAnalyserTest
         }
         [TestMethod]
         //TC5.3- Given Improper ClassName Should Return Custom Exception using Parameterised Constructor
-        public void GivenImproperConstuctorName_ShouldReturnException_using_Parameterised_Constructor()
+        public void Given_Improper_ConstuctorName_ShouldReturn_Exception_using_Parameterised_Constructor()
         {
             //Arrange
             string message = "Happy";
@@ -163,7 +165,7 @@ namespace MoodAnalyserTest
             try
             {
                 Object expected = new MoodAnalyser(message);
-                Object actual = MoodAnalyserFactory.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "Analyse", message);
+                Object actual = MoodAnalyserReflector.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "Analyse", message);
                 //Assert
                 actual.Equals(expected);
             }
@@ -172,5 +174,37 @@ namespace MoodAnalyserTest
                 Assert.AreEqual(expectedMsg, ex.Message);
             }
         }
-    }
+        [TestMethod]
+        //TC6.1- Given Happy Message with Reflector Should Return HAPPY
+        public void Given_Happy_Message_With_Reflector_Should_Return_HappyMood()
+        {
+            //Arrange
+            string expected = "Happy";
+            string message = "I am in Happy Mood";
+            //Act
+            string actual = MoodAnalyserReflector.InvokedAnalyseMood(message, "Analysemood");
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        //TC6.2- Given Happy with Reflector Improper Method With Reflector Should Return Exception
+        public void Given_Happy_Improper_Method_With_Reflector_Should_Return_Exception()
+        {
+            //Arrange
+            string expected = "Happy";
+            string expectedMsg = "Method Not Found";
+            string message = "I am in Happy Mood";
+            try
+            {
+                //Act
+                string actual = MoodAnalyserReflector.InvokedAnalyseMood(message, "Analysermood");
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expectedMsg, ex.Message);
+            }
+        }
+    }    
 }
