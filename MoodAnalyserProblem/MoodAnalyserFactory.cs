@@ -34,5 +34,26 @@ namespace MoodAnalyserProblem
             else
                 throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "Method not found");
         }
+        public static object CreateParameterizedMoodAnalyser(string className, string constructorName,string message)
+        {
+            Type type = typeof(MoodAnalyser);
+            if (type.Name.Equals(className) || type.FullName.Equals(className))
+            {
+                if (type.Name.Equals(constructorName))
+                {
+                    ConstructorInfo constructor = type.GetConstructor(new[] { typeof(string) });
+                    object instance = constructor.Invoke(new object[] {message});
+                    return instance;
+                }
+                else
+                {                   
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "Method Not Found");
+                }
+            }
+            else
+            {
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_CLASS, "Class Not Found");
+            }
+        }
     }
 }

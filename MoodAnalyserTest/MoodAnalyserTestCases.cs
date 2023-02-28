@@ -120,5 +120,57 @@ namespace MoodAnalyserTest
                 Assert.AreEqual(expected, ex.Message);
             }
         }
+        [TestMethod]
+        //TC5.1- Given Using Reflections MoodAnalyser ClassName Should Return MoodAnalyser Object using Parameterised Constructor
+        public void Given_MoodAnalyser_With_Parameterised_Constructor_ShouldReturnMoodAnalyserObject()
+        {
+            //Arrange
+            string message = "Happy Mood";           
+            //Act
+                Object expected=new MoodAnalyser(message);
+                Object actual = MoodAnalyserFactory.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser", message);
+           //Assert
+                actual.Equals(expected);
+        }
+        [TestMethod]
+        //TC5.2- Given Improper ClassName Should Return Custom Exception using Parameterised Constructor
+        public void GivenImproperClassName_ShouldReturnException_using_Parameterised_Constructor()
+        {
+            //Arrange
+            string message = "Happy";
+            string expectedMsg = "Class Not Found";
+            //Act
+            try
+            {
+                Object expected = new MoodAnalyser(message);
+                Object actual = MoodAnalyserFactory.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.Customer", "MoodAnalyser", message);
+                //Assert
+                actual.Equals(expected);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expectedMsg, ex.Message);
+            }
+        }
+        [TestMethod]
+        //TC5.3- Given Improper ClassName Should Return Custom Exception using Parameterised Constructor
+        public void GivenImproperConstuctorName_ShouldReturnException_using_Parameterised_Constructor()
+        {
+            //Arrange
+            string message = "Happy";
+            string expectedMsg = "Method Not Found";
+            //Act
+            try
+            {
+                Object expected = new MoodAnalyser(message);
+                Object actual = MoodAnalyserFactory.CreateParameterizedMoodAnalyser("MoodAnalyserProblem.MoodAnalyser", "Analyse", message);
+                //Assert
+                actual.Equals(expected);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expectedMsg, ex.Message);
+            }
+        }
     }
 }
